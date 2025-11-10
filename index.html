@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Genuineport TTS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Genuineport TTS</h1>
+    <p class="tagline">Create expressive AI voice — demo frontend</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <label>Enter text:</label>
+      <textarea id="inputText" placeholder="Type long text here..."></textarea>
+
+      <div class="row">
+        <label>Voice:
+          <select id="voice">
+            <option value="default">default (server setting)</option>
+            <!-- optional: you can populate with specific voice IDs later -->
+          </select>
+        </label>
+
+        <label>Emotion:
+          <select id="emotion">
+            <option value="neutral">neutral</option>
+            <option value="joy">joy</option>
+            <option value="sad">sad</option>
+            <option value="angry">angry</option>
+            <option value="calm">calm</option>
+          </select>
+        </label>
+
+        <button id="speakBtn">Generate & Play</button>
+        <button id="downloadBtn" disabled>Download MP3</button>
+      </div>
+
+      <div id="status">Status: idle</div>
+    </section>
+
+    <section class="player">
+      <audio id="player" controls></audio>
+    </section>
+  </main>
+
+  <footer>
+    <small>Powered by Genuineport TTS (frontend) — backend required for real TTS</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+</html>
