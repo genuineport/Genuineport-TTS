@@ -4,7 +4,58 @@
 // 2) npm init -y
 // 3) npm install express node-fetch dotenv
 // 4) node server.js
+// ✅ Step 2: Backend URL (put at the very top)
 const BASE_URL = 'https://genuineport-tts-backend.onrender.com';
+
+// ✅ Step 1: Select DOM elements
+const textInput = document.getElementById('text-input');
+const generateBtn = document.getElementById('generate-btn');
+const audioPlayer = document.getElementById('audio-player');
+const voiceSelect = document.getElementById('voice-select'); // optional if you have multiple voices
+const emotionSelect = document.getElementById('emotion-select'); // optional for emotions
+
+// ✅ Step 4: Function to call backend API
+async function generateVoice(text, voice, emotion) {
+    try {
+        const response = await fetch(`${BASE_URL}/api/speak`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, voice, emotion })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to generate voice');
+        }
+
+        const data = await response.json();
+        return data.audio_base64; // backend returns audio in base64
+    } catch (error) {
+        console.error('Error generating voice:', error);
+        alert('Failed to generate voice. Check backend connection.');
+    }
+}
+
+// ✅ Step 3: Event listener for button
+generateBtn.addEventListener('click', async () => {
+    const text = textInput.value.trim();
+    if (!text) {
+        alert('Please enter some text!');
+        return;
+    }
+
+    // Get selected voice and emotion if available
+    const voice = voiceSelect ? voiceSelect.value : 'default';
+    const emotion = emotionSelect ? emotionSelect.value : 'neutral';
+
+    // Generate voice from backend
+    const audioBase64 = await generateVoice(text, voice, emotion);
+
+    if (audioBase64) {
+        // Play audio
+        audioPlayer.src = `data:audio/mpeg;base64,${audioBase64}`;
+        audioPlayer.play();
+    }
+});
 const express = require('express');
 const fetch = require('node-fetch'); // Node 18+ has global fetch; use node-fetch if older
 const path = require('path');
